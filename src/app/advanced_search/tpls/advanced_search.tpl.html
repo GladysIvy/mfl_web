@@ -37,7 +37,7 @@
                                  <ui-select-match placeholder="Select County">
                                         {{$item.name}}
                                 </ui-select-match>
-                                <ui-select-choices repeat="county in filter_data.county track by $index  | propsFilter: {name: $select.search} ">
+                                <ui-select-choices repeat="county in filter_data.county">
                                     <div ng-bind-html="county.name| highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
@@ -51,15 +51,15 @@
                                  <ui-select-match placeholder="Select County">
                                         {{$item.name}}
                                 </ui-select-match>
-                                <ui-select-choices repeat="consti in filter_data.constituency track by $index| propsFilter: {name: $select.search}">
+                                <ui-select-choices repeat="consti in filter_data.constituency">
                                      <div ng-bind-html="consti.name| highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
                         </div>
 
-                        <div class="input-group ">
+                        <div class="input-group" ng-hide="disabled.ward">
                             <span class="">Ward:</span> <br/>
-                            <ui-select multiple name="ward" ng-model="filter.ward"
+                            <ui-select multiple name="ward" ng-model="filter.ward" ng-disabled="disabled.ward"
                             close-on-select="true" theme="select2" sortable="true" style="width:350px;">
                                  <ui-select-match placeholder="Select Ward">
                                         {{$item.name}}
@@ -70,7 +70,7 @@
                             </ui-select>
                         </div>
 
-                        <div class="input-group ">
+                        <div class="input-group">
                             <span class="">Operation Status: </span> <br/>
                             <ui-select multiple ng-model="filter.operation_status"
                             close-on-select="true" theme="select2" sortable="true" name="operation_status" style="width:350px;">

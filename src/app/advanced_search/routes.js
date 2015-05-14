@@ -5,7 +5,7 @@
         "facility_type", "number_of_beds", "number_of_cots", "open_whole_day",
         "is_classified", "is_published", "is_regulated", "is_active"
     ];
-    angular.module("mfl.filtering.routes", [])
+    angular.module("mfl.filtering.routes", ["mfl.filtering.services"])
 
     .config(["$stateProvider", function ($stateProvider) {
         $stateProvider
@@ -14,7 +14,13 @@
                 views: {
                     "main": {
                         controller: "mfl.filtering.controller",
-                        templateUrl: "advanced_search/tpls/advanced_search.tpl.html"
+                        templateUrl: "advanced_search/tpls/advanced_search.tpl.html",
+                        resolve: {
+                            filteringData: ["mfl.filtering.data.controller",
+                                function(filteringDataController){
+                                    return filteringDataController();
+                                }]
+                        }
                     }
                 }
             });
