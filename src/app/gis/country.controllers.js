@@ -109,8 +109,10 @@
                             type: "heat",
                             data: angular.copy($scope.heatpoints),
                             layerOptions: {
-                                radius: 5,
-                                blur: 1
+                                radius: 25,
+                                opacity:1,
+                                blur: 1,
+                                gradient: {0.2: "lime", 0.3: "orange",0.4: "red"}
                             },
                             visible: true
                         },
@@ -155,20 +157,6 @@
                     ];
             });
             $scope.heatpoints = heatpoints;
-            $scope.layers.overlays = {
-                heat: {
-                    name: "Facilities",
-                    type: "heat",
-                    data: heatpoints,
-                    layerOptions: {
-                        radius: 25,
-                        opacity:1,
-                        blur: 1,
-                        gradient: {0.2: "lime", 0.3: "orange",0.4: "red"}
-                    },
-                    visible: true
-                }
-            };
         })
         .error(function(err){
             $scope.alert = err.error;
