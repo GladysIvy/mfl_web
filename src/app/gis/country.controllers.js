@@ -43,6 +43,7 @@
         };
         $scope.markers = {};
         $scope.layers = {};
+        $scope.selectedConst = {};
         leafletData.getMap().then(function (map) {
                 var coords = gisCountryBound.data.results.features[0]
                 .properties.bound.coordinates[0];
@@ -62,24 +63,26 @@
             $state.go("gis_county",{county_id: county.id,
                                     const_boundaries : boundary_ids});
         });
-        gisCountiesApi.api
-        .list()
-        .success(function (data){
-            var marks = data.results.features;
+        
+        // Retrieve counties boundaries and add to scope county markers and county GeoJSON
+        gisCountiesApi.api.list()
+        .success(function (countyBoundaries){
+            var marks = countyBoundaries.results.features;
             var markers = _.mapObject(marks, function(mark){
                 return  {
-                        layer: "counties",
-                        lat: mark.properties.center.coordinates[1],
-                        lng: mark.properties.center.coordinates[0],
-                        label: {
-                            message: ""+mark.properties.name+"",
-                            options: {
-                                noHide: true
-                            }
+                    layer: "counties",
+                    lat: mark.properties.center.coordinates[1],
+                    lng: mark.properties.center.coordinates[0],
+                    label: {
+                        message: ""+mark.properties.name+"",
+                        options: {
+                            noHide: true
                         }
-                    };
+                    }
+                };
             });
             $scope.markers = markers;
+            
             angular.extend($scope, {
                 layers:{
                     baselayers:{
@@ -104,11 +107,9 @@
                             visible: true
                         }
                     }
-                }
-            });
-            angular.extend($scope,{
+                },
                 geojson: {
-                    data: data.results,
+                    data: countyBoundaries.results,
                     style: {
                         fillColor: "rgba(255, 255, 255, 0.01)",
                         weight: 2,
@@ -117,13 +118,14 @@
                         dashArray: "3",
                         fillOpacity: 0.7
                     }
-                },
-                selectedConst: {}
+                }
             });
         })
         .error(function(err){
             $scope.alert = err.error;
         });
+        
+        // Retrieve facility heat map and add to scope heatpoints
         gisFacilitiesApi.api
         .list()
         .success(function (data){
