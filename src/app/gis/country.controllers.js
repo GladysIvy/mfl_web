@@ -80,7 +80,7 @@
         gisCountiesApi.api.list()
         .success(function (countyBoundaries){
             var marks = countyBoundaries.results.features;
-            var markers = _.mapObject(marks, function(mark){
+            $scope.markers = _.mapObject(marks, function(mark){
                 return  {
                     group: "counties",
                     lat: mark.properties.center.coordinates[1],
@@ -93,7 +93,6 @@
                     }
                 };
             });
-            $scope.markers = markers;
             
             angular.extend($scope, {
                 layers:{
