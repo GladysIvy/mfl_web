@@ -85,7 +85,7 @@
             var marks = countyBoundaries.results.features;
             var markers = _.mapObject(marks, function(mark){
                 return  {
-                    layer: "counties",
+                    group: "counties",
                     lat: mark.properties.center.coordinates[1],
                     lng: mark.properties.center.coordinates[0],
                     label: {
@@ -101,14 +101,19 @@
             angular.extend($scope, {
                 layers:{
                     baselayers:{
-                        counties:{
-                            name:"Counties",
-                            type:"markercluster",
-                            visible: true,
-                            data: []
+                        mapbox_light: {
+                            name: "Country",
+                            url: "/assets/img/transparent.png",
+                            type: "xyz"
                         }
                     },
                     overlays:{
+                        counties:{
+                            name:"Counties",
+                            type:"group",
+                            visible: true,
+                            data: []
+                        },
                         heat: {
                             name: "Facilities",
                             type: "heat",
