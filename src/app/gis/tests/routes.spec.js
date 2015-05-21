@@ -35,6 +35,27 @@ describe("tests for GIS Routes:", function() {
         expect($state.href("gis", { id: 1 })).toEqual("#/gis");
     }]));
         /*Tests for resolves within routes*/
+
+    
+    it("should resolve gisCountryBound",
+            inject(["$httpBackend","$state",function ($httpBackend,$state) {
+        var data = {
+            results:{
+                id :"",
+                type:"",
+                geometry:{},
+                properties: {}
+            }
+        };
+        $httpBackend.expectGET(
+        SERVER_URL + "api/gis/country_borders/?code=KEN")
+            .respond(200, data);
+        $state.go("gis", {code: "KEN"});
+
+        $httpBackend.flush();
+    }]));
+    
+    
     it("should resolve gisCounty",
             inject(["$httpBackend","$state",function ($httpBackend,$state) {
         var data = {

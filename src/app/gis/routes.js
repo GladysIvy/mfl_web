@@ -22,6 +22,12 @@
                 },
                 data:{
                     pageTitle: "MFLv2 Facility Geolocation"
+                },
+                resolve:{
+                    gisCountryBound : ["gisCountriesApi",
+                           function(gisCountriesApi){
+                            return gisCountriesApi.api.filter({code:"KEN"});
+                        }]
                 }
             })
             .state("gis_county", {

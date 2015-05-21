@@ -3,11 +3,11 @@
     angular
     .module("mfl.gis_country.controllers", ["leaflet-directive",
         "mfl.gis.wrapper"])
-    .controller("mfl.gis.controllers.gis", ["$scope","leafletData","gisCountriesApi",
+    .controller("mfl.gis.controllers.gis", ["$scope","leafletData",
         "$http","$stateParams","$state","SERVER_URL","gisCountiesApi","gisFacilitiesApi",
-        "$timeout",
-        function ($scope,leafletData,gisCountriesApi,$http, $stateParams,
-                   $state,SERVER_URL, gisCountiesApi, gisFacilitiesApi,$timeout) {
+        "$timeout","gisCountryBound",
+        function ($scope,leafletData,$http, $stateParams,
+                   $state,SERVER_URL, gisCountiesApi, gisFacilitiesApi,$timeout, gisCountryBound) {
         $scope.tooltip = {
             "title": "",
             "checked": false
@@ -43,20 +43,15 @@
         };
         $scope.markers = {};
         $scope.layers = {};
-        $scope.country_success = function (data){
-            leafletData.getMap()
-                .then(function (map) {
-                    var coords = data.results.features[0].properties.bound.coordinates[0];
-                    var bounds = _.map(coords, function(c) {
-                        return [c[1], c[0]];
-                    });
-                    map.fitBounds(bounds);
-                    map.spin(true,
-                             {lines: 13, length: 20,corners:1,radius:30,width:10});
-                    $timeout(function() {map.spin(false);}, 1000);
+        leafletData.getMap().then(function (map) {
+                var coords = gisCountryBound.data.results.features[0]
+                .properties.bound.coordinates[0];
+                var bounds = _.map(coords, function(c) {
+                    return [c[1], c[0]];
                 });
-        };
-    
+                map.fitBounds(bounds);
+            });
+
         // Handle mouseover and click events on the rendered map
         $scope.$on("leafletDirectiveMap.geojsonMouseover", function(ev, county) {
             $scope.hoveredCounty = county;
@@ -67,14 +62,6 @@
             $state.go("gis_county",{county_id: county.id,
                                     const_boundaries : boundary_ids});
         });
-            
-        gisCountriesApi.api
-            .filter({code: "KEN"})
-            .success($scope.country_success)
-            .error(function (e) {
-                $scope.alert = e.error;
-            });
-        
         gisCountiesApi.api
         .list()
         .success(function (data){
