@@ -77,10 +77,26 @@ describe("Tests for mfl.gis.controllers.gis (Country Level):", function () {
             "leafletData": leafletData,
             "$http": {},
             "$state": {},
-            "gisCountryBound":[
-                [1,3],
-                [3,1]
-            ],
+            "gisCountryBound":{
+                data:{
+                    results:{
+                        features:[
+                            {
+                                properties:{
+                                    bound:{
+                                        coordinates:[
+                                            [
+                                                [1,3],
+                                                [3,1]
+                                            ]
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
             "$stateParams": {},
             "SERVER_URL": SERVER_URL,
             "gisCountriesApi": gisCountriesApi,
@@ -114,10 +130,26 @@ describe("Tests for mfl.gis.controllers.gis (Country Level):", function () {
             "$http": {},
             "$state": {},
             "$stateParams": {},
-            "gisCountryBound":[
-                [1,3],
-                [3,1]
-            ],
+            "gisCountryBound":{
+                data:{
+                    results:{
+                        features:[
+                            {
+                                properties:{
+                                    bound:{
+                                        coordinates:[
+                                            [
+                                                [1,3],
+                                                [3,1]
+                                            ]
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
             "SERVER_URL": SERVER_URL
         });
         $httpBackend.expectGET(
@@ -135,10 +167,26 @@ describe("Tests for mfl.gis.controllers.gis (Country Level):", function () {
         controller("mfl.gis.controllers.gis", {
             "$scope" : scope,
             "$state" : $state,
-            "gisCountryBound":[
-                [1,3],
-                [3,1]
-            ],
+            "gisCountryBound":{
+                data:{
+                    results:{
+                        features:[
+                            {
+                                properties:{
+                                    bound:{
+                                        coordinates:[
+                                            [
+                                                [1,3],
+                                                [3,1]
+                                            ]
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
             "gisCountriesApi" : gisCountriesApi,
             "gisCountiesApi" : gisCountiesApi,
             "gisFacilitiesApi": gisFacilitiesApi,
@@ -163,10 +211,26 @@ describe("Tests for mfl.gis.controllers.gis (Country Level):", function () {
         controller("mfl.gis.controllers.gis", {
             "$scope" : scope,
             "$state" : $state,
-            "gisCountryBound":[
-                [1,3],
-                [3,1]
-            ],
+            "gisCountryBound":{
+                data:{
+                    results:{
+                        features:[
+                            {
+                                properties:{
+                                    bound:{
+                                        coordinates:[
+                                            [
+                                                [1,3],
+                                                [3,1]
+                                            ]
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
             "gisCountriesApi" : gisCountriesApi,
             "gisCountiesApi" : gisCountiesApi,
             "gisFacilitiesApi": gisFacilitiesApi,
