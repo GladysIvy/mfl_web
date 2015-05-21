@@ -76,10 +76,7 @@
                 fillOpacity: 0.7
             }
         };
-            
-        console.log(gisCountryBound);
-        console.log($scope.geojson);
-            
+
         gisCountiesApi.api.list()
         .success(function (countyBoundaries){
             var marks = countyBoundaries.results.features;
