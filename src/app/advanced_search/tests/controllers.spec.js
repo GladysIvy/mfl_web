@@ -167,6 +167,15 @@
             expect(filterApi.facilities.filter).not.toHaveBeenCalled();
         });
 
+        it("should clear filters", function(){
+            var scope = rootScope.$new();
+            spyOn(filterApi.facilities, "filter");
+            createController(scope, {});
+            scope.filter.search = "hapa";
+            scope.clearFilters();
+            expect(scope.filter.search).toBeFalsy();
+        });
+
         it("should filter facility: param with no id set", function(){
             var scope = rootScope.$new();
             createController(scope, {});
@@ -471,6 +480,49 @@
             spyOn(scope, "filterFacility");
             scope.paginate(21);
             expect(scope.filterFacility).toHaveBeenCalledWith(scope.filter);
+        });
+
+        it("should compile advancedSearch directive", function(){
+            var chariaDirective = $compile("<advanced_search></advanced_search>")(rootScope.$new());
+            expect(chariaDirective.length).toEqual(1);
+        });
+
+        it("should compile mflKeyPress directive", function(){
+            var keyPressDir = $compile("<div mfl-key-press></div>")(rootScope.$new());
+            expect(keyPressDir.length).toEqual(1);
+        });
+
+        it("should handle `enter key` press event", function(){
+            var scope = rootScope.$new();
+            createController(scope, {});
+            httpBackend.expectGET(
+                serverUrl+facilityUrl).respond(200, {results: ["testing"]});
+            var keyPressDir = $compile("<div mfl-key-press></div>")(scope);
+            var triggerKeyDown = function (element, keyCode) {
+                var e = angular.element.Event("keydown");
+                e.which = keyCode;
+                element.trigger(e);
+            };
+            triggerKeyDown(angular.element(keyPressDir), 13);
+            httpBackend.flush();
+            expect(scope.query_results).toEqual(["testing"]);
+        });
+
+        it("should handle `esp key` press event", function(){
+            var scope = rootScope.$new();
+            createController(scope, {});
+            httpBackend.expectGET(
+                serverUrl+facilityUrl).respond(200, {results: ["testing"]});
+            var keyPressDir = $compile("<div mfl-key-press></div>")(scope);
+            var triggerKeyDown = function (element, keyCode) {
+                var e = angular.element.Event("keydown");
+                e.which = keyCode;
+                element.trigger(e);
+            };
+            triggerKeyDown(angular.element(keyPressDir), 27);
+            httpBackend.flush();
+            expect(scope.query_results).toEqual(["testing"]);
+            expect(scope.filter.search).toBeFalsy();
         });
     });
 })();
