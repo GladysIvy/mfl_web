@@ -65,6 +65,21 @@
         });
         
         // Retrieve counties boundaries and add to scope county markers and county GeoJSON
+        $scope.geojson = {
+            data: gisCountryBound.data.results,
+            style: {
+                fillColor: "rgba(255, 255, 255, 0.01)",
+                weight: 2,
+                opacity: 1,
+                color: "rgba(0, 0, 0, 0.52)",
+                dashArray: "3",
+                fillOpacity: 0.7
+            }
+        };
+            
+        console.log(gisCountryBound);
+        console.log($scope.geojson);
+            
         gisCountiesApi.api.list()
         .success(function (countyBoundaries){
             var marks = countyBoundaries.results.features;
@@ -88,7 +103,7 @@
                     baselayers:{
                         counties:{
                             name:"Counties",
-                            type:"group",
+                            type:"markercluster",
                             visible: true,
                             data: []
                         }
@@ -97,7 +112,7 @@
                         heat: {
                             name: "Facilities",
                             type: "heat",
-                            data: angular.copy($scope.heatpoints),
+                            data: $scope.heatpoints,
                             layerOptions: {
                                 radius: 25,
                                 opacity:1,
@@ -106,17 +121,6 @@
                             },
                             visible: true
                         }
-                    }
-                },
-                geojson: {
-                    data: countyBoundaries.results,
-                    style: {
-                        fillColor: "rgba(255, 255, 255, 0.01)",
-                        weight: 2,
-                        opacity: 1,
-                        color: "rgba(0, 0, 0, 0.52)",
-                        dashArray: "3",
-                        fillOpacity: 0.7
                     }
                 }
             });
