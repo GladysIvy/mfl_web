@@ -130,13 +130,12 @@
         .list()
         .success(function (data){
             var heats = data.results.features;
-            var heatpoints = _.map(heats, function(heat){
+            $scope.heatpoints = _.map(heats, function(heat){
                 return [
                         heat.geometry.coordinates[1],
                         heat.geometry.coordinates[0]
                     ];
             });
-            $scope.heatpoints = heatpoints;
         })
         .error(function(err){
             $scope.alert = err.error;
